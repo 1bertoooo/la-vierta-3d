@@ -17,7 +17,8 @@ import Autosave from "@/components/Autosave";
 import InteractKey from "@/components/InteractKey";
 import { EpilogoOverlay } from "@/components/cenas/Epilogo";
 
-const Cena = dynamicImport(() => import("@/components/Cena"), { ssr: false });
+// Cena 2D top-down (substituiu o R3F que não funciona em Next 16 + React 19)
+const Cena = dynamicImport(() => import("@/components/Cena2D"), { ssr: false });
 
 export default function Jogar() {
   const router = useRouter();
