@@ -88,7 +88,7 @@ export default function CriarPersonagem() {
   }
 
   return (
-    <main className="min-h-screen w-screen overflow-y-auto p-4 sm:p-8">
+    <main className="min-h-screen w-full p-4 sm:p-8 pb-24">
       <div className="max-w-3xl mx-auto">
         <h1
           className="text-3xl sm:text-4xl text-[var(--color-dourado)] mb-2 text-center"
