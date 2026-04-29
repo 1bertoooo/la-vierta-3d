@@ -1,111 +1,47 @@
 "use client";
 
 import { Canvas } from "@react-three/fiber";
-import { OrbitControls, Grid } from "@react-three/drei";
-import Player from "./Player";
-import RemoteAvatars from "./RemoteAvatars";
-import Praca from "./cenas/Praca";
-import Adega from "./cenas/Adega";
-import Epilogo from "./cenas/Epilogo";
-import { useGame } from "@/lib/store";
+import { OrbitControls } from "@react-three/drei";
 
 /**
- * Cena 3D principal — versão simplificada baseada em exemplos
- * open-source do react-three-fiber/drei (sem Stars/Sky/Suspense complexo).
+ * MINIMAL TEST — só pra confirmar que R3F renderiza nesse projeto.
+ * Padrão direto da documentação oficial: https://docs.pmnd.rs/react-three-fiber
  *
- * Estrutura mínima:
- *  - Canvas com background sólido
- *  - Luzes (ambient + directional)
- *  - Environment "night" para reflexão sutil
- *  - Cena ativa (praca / adega / epilogo)
- *  - Player local + remotos
- *  - OrbitControls limitado
+ * Se isso renderizar uma caixa laranja, o problema estava em Praca/Player/NPC.
+ * Depois reintroduzimos cena gradualmente.
  */
 export default function Cena() {
-  const scene = useGame((s) => s.scene);
-
   return (
     <Canvas
-      shadows
-      dpr={[1, 2]}
-      gl={{ antialias: true, alpha: false }}
-      camera={{
-        position: [12, 14, 12],
-        fov: 35,
-        near: 0.1,
-        far: 100,
-      }}
       style={{
         position: "absolute",
-        top: 0,
-        left: 0,
-        width: "100%",
-        height: "100%",
+        inset: 0,
+        background: "#1a1208",
       }}
-      onCreated={({ scene: threeScene, gl }) => {
-        // Garante background renderizado mesmo se outros componentes falharem
-        threeScene.background = null;
-        gl.setClearColor("#0a0808", 1);
-      }}
+      camera={{ position: [3, 3, 5], fov: 50 }}
     >
-      {/* Fog atmosférico (próximo, longe) */}
-      <fog attach="fog" args={["#1a1208", 12, 40]} />
+      <ambientLight intensity={0.6} />
+      <directionalLight position={[5, 5, 5]} intensity={1.2} />
 
-      {/* Luzes — pattern padrão R3F */}
-      <ambientLight intensity={0.4} color="#9fa8c0" />
-      <directionalLight
-        position={[10, 15, 5]}
-        intensity={0.8}
-        color="#c5d0e8"
-        castShadow
-        shadow-mapSize-width={2048}
-        shadow-mapSize-height={2048}
-        shadow-camera-left={-20}
-        shadow-camera-right={20}
-        shadow-camera-top={20}
-        shadow-camera-bottom={-20}
-      />
-      <hemisphereLight args={["#7ba3d9", "#3a2818", 0.3]} />
+      {/* Caixa laranja (proof of life) */}
+      <mesh position={[0, 0.5, 0]}>
+        <boxGeometry args={[1, 1, 1]} />
+        <meshStandardMaterial color="orange" />
+      </mesh>
 
-      {/* Grid de chão (drei) — pattern de exemplos do drei */}
-      <Grid
-        position={[0, 0.005, 0]}
-        args={[40, 40]}
-        cellSize={1}
-        cellThickness={0.5}
-        cellColor="#3a2818"
-        sectionSize={4}
-        sectionThickness={1}
-        sectionColor="#5a3a28"
-        fadeDistance={28}
-        fadeStrength={1}
-        followCamera={false}
-        infiniteGrid={false}
-      />
+      {/* Chão */}
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, 0]}>
+        <planeGeometry args={[10, 10]} />
+        <meshStandardMaterial color="#3a2818" />
+      </mesh>
 
-      {/* Cena ativa */}
-      {scene === "praca" && <Praca />}
-      {scene === "adega" && <Adega />}
-      {scene === "epilogo" && <Epilogo />}
+      {/* Cubo de referência (segundo cubo, vermelho) */}
+      <mesh position={[2, 0.5, 0]}>
+        <boxGeometry args={[1, 1, 1]} />
+        <meshStandardMaterial color="red" />
+      </mesh>
 
-      {/* Player local + remotos */}
-      <Player />
-      <RemoteAvatars />
-
-      {/* Câmera isométrica fixa, com leve rotação manual */}
-      <OrbitControls
-        makeDefault
-        enablePan={false}
-        enableZoom={true}
-        minDistance={8}
-        maxDistance={28}
-        minPolarAngle={Math.PI / 5}
-        maxPolarAngle={Math.PI / 2.5}
-        target={[0, 0.5, 0]}
-        enableDamping
-        dampingFactor={0.08}
-      />
-
+      <OrbitControls />
     </Canvas>
   );
 }
