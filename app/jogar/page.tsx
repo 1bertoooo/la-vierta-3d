@@ -1,6 +1,8 @@
 "use client";
 
-import dynamic from "next/dynamic";
+export const dynamic = "force-dynamic";
+
+import dynamicImport from "next/dynamic";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { getSupabase } from "@/lib/supabase";
@@ -15,7 +17,7 @@ import Autosave from "@/components/Autosave";
 import InteractKey from "@/components/InteractKey";
 import { EpilogoOverlay } from "@/components/cenas/Epilogo";
 
-const Cena = dynamic(() => import("@/components/Cena"), { ssr: false });
+const Cena = dynamicImport(() => import("@/components/Cena"), { ssr: false });
 
 export default function Jogar() {
   const router = useRouter();
