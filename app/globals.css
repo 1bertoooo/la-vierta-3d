@@ -19,6 +19,11 @@ html, body {
   font-family: var(--font-cormorant);
   margin: 0;
   padding: 0;
+}
+
+/* Páginas que renderizam o Canvas 3D (Cena) bloqueiam scroll
+   pra evitar puxar a viewport quando o player arrasta a câmera. */
+body.no-scroll, body.no-scroll html {
   overflow: hidden;
 }
 
