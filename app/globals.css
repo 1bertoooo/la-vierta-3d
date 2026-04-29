@@ -1,0 +1,29 @@
+@import "tailwindcss";
+
+@theme {
+  --color-pergaminho: #f4e8c8;
+  --color-pergaminho-velho: #c9a961;
+  --color-dourado: #d4a574;
+  --color-dourado-claro: #f4cf8e;
+  --color-vinho: #722f37;
+  --color-sangue: #a52a2a;
+  --color-carvao: #1a1612;
+  --color-pedra: #5a5550;
+  --font-cinzel: "Cinzel", serif;
+  --font-cormorant: "Cormorant Garamond", serif;
+}
+
+html, body {
+  background: var(--color-carvao);
+  color: var(--color-pergaminho);
+  font-family: var(--font-cormorant);
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+* { box-sizing: border-box; }
+
+button { cursor: pointer; }
+
+canvas { display: block; outline: none; }
