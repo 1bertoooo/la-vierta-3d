@@ -29,6 +29,12 @@ export default function Jogar() {
 
   usePresence();
 
+  // Bloqueia scroll do body só enquanto está na cena 3D (canvas precisa do gesture)
+  useEffect(() => {
+    document.body.classList.add("no-scroll");
+    return () => document.body.classList.remove("no-scroll");
+  }, []);
+
   useEffect(() => {
     const sb = getSupabase();
     sb.auth.getSession().then(({ data }) => {
